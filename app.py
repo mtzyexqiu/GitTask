@@ -4,6 +4,18 @@ from core.scheduler import TaskScheduler
 app = Flask(__name__)
 scheduler = TaskScheduler()
 
+dummy_tasks = [
+    ("Tugas Akhir Semester", "2026-07-06 09:00", 1, "Kuliah"),
+    ("Laporan Mingguan", "2026-07-08 14:00", 2, "Kerja"),
+    ("Baca Chapter 4", "2026-07-06 22:00", 4, "Kuliah"),
+    ("Presentasi Proyek", "2026-07-10 13:00", 1, "Kuliah"),
+    ("Submit Laporan", "2026-07-04 23:59", 2, "Kuliah"),
+    ("Review Code Tim", "2026-07-09 10:00", 3, "Kerja"),
+]
+
+for nama, deadline, priority, kategori in dummy_tasks:
+    scheduler.tambah_tugas(nama, deadline, priority, kategori)
+
 
 @app.route("/")
 def index():

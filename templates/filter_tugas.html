@@ -2,22 +2,47 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Filter Tugas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <a href="#main" class="skip-link">Lewati ke konten utama</a>
+    <nav class="navbar" aria-label="Navigasi utama">
+        <div class="navbar-inner">
+            <a href="{{ url_for('index') }}" class="nav-brand">
+                <span class="brand-icon">SF</span>
+                <span class="brand-text">SchedulerFlow</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Buka navigasi">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="nav-links" id="navMenu">
+                <a href="{{ url_for('tambah_tugas') }}" class="nav-link">Tambah Tugas</a>
+                <a href="{{ url_for('semua_tugas', urut='timeline') }}" class="nav-link">Jadwal</a>
+                <a href="{{ url_for('cari_tugas') }}" class="nav-link">Cari</a>
+                <a href="{{ url_for('semua_tugas', urut='priority') }}" class="nav-btn">Buka Aplikasi</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="header">
         <div class="stamp">09</div>
         <div class="titles">
             <h1>Filter Tugas</h1>
-            <p>Penyaringan Daftar</p>
+            <p>Saring daftar tugas</p>
         </div>
     </div>
-    <div class="container">
+
+    <div class="container" id="main">
         <div class="panel">
             <form method="POST">
-                <label>Pilih Mode Filter</label>
-                <select name="mode" required>
+                <label for="mode">Pilih Mode Filter</label>
+                <select name="mode" id="mode" required>
                     <option value="hari_ini">Hari Ini</option>
                     <option value="minggu_ini">Minggu Ini</option>
                     <option value="selesai">Sudah Selesai</option>
@@ -29,16 +54,16 @@
 
         {% if mode %}
         <div class="panel">
-            <p style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); margin-bottom:14px; text-transform:uppercase;">
+            <div class="note" style="margin-bottom:14px; border-left-color:#2B3A55; background:#F1F5F9; color:#1C2538; font-weight:600;">
                 Hasil filter: {{ mode }}
-            </p>
+            </div>
             {% if hasil %}
             <table>
-                <tr><th>ID</th><th>Nama</th><th>Deadline</th><th>Priority</th><th>Status</th></tr>
+                <tr><th>ID</th><th>Nama</th><th>Deadline</th><th>Prioritas</th><th>Status</th></tr>
                 {% for t in hasil %}
                 <tr>
                     <td class="mono">{{ t.id }}</td>
-                    <td>{{ t.nama }}</td>
+                    <td><strong>{{ t.nama }}</strong></td>
                     <td class="deadline-cell">{{ t.deadline }}</td>
                     <td>{{ t.priority }}</td>
                     <td>{{ t.status }}</td>
@@ -46,12 +71,41 @@
                 {% endfor %}
             </table>
             {% else %}
-                <div class="empty-state">Tidak ada tugas yang cocok dengan filter ini.</div>
+                <div class="empty-state">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:#E2E8F0; margin-bottom:12px;" aria-hidden="true">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    Tidak ada tugas yang cocok dengan filter ini.
+                </div>
             {% endif %}
         </div>
         {% endif %}
 
-        <a href="{{ url_for('index') }}" class="back-link">← KEMBALI KE MENU</a>
+        <a href="{{ url_for('index') }}" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Kembali ke Menu
+        </a>
     </div>
+
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.setAttribute('aria-expanded', String(!expanded));
+                navMenu.classList.toggle('open');
+            });
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('open');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
+    </script>
 </body>
 </html>

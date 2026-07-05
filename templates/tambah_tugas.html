@@ -2,18 +2,43 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tambah Tugas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <a href="#main" class="skip-link">Lewati ke konten utama</a>
+    <nav class="navbar" aria-label="Navigasi utama">
+        <div class="navbar-inner">
+            <a href="{{ url_for('index') }}" class="nav-brand">
+                <span class="brand-icon">SF</span>
+                <span class="brand-text">SchedulerFlow</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Buka navigasi">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="nav-links" id="navMenu">
+                <a href="{{ url_for('tambah_tugas') }}" class="nav-link">Tambah Tugas</a>
+                <a href="{{ url_for('semua_tugas', urut='timeline') }}" class="nav-link">Jadwal</a>
+                <a href="{{ url_for('cari_tugas') }}" class="nav-link">Cari</a>
+                <a href="{{ url_for('semua_tugas', urut='priority') }}" class="nav-btn">Buka Aplikasi</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="header">
         <div class="stamp">01</div>
         <div class="titles">
             <h1>Tambah Tugas</h1>
-            <p>Entri Baru</p>
+            <p>Entri data tugas baru</p>
         </div>
     </div>
-    <div class="container">
+
+    <div class="container" id="main">
         <div class="panel">
             <form method="POST" id="formTugas">
 
@@ -25,7 +50,7 @@
                 <div class="form-section">
                     <div class="form-section-title"><span class="step-dot">2</span> Deadline</div>
 
-                    <label>Tanggal Deadline</label>
+                    <label for="tgl">Tanggal Deadline</label>
                     <input type="date" id="tgl" required>
                     <div class="quick-row" id="quickDate">
                         <span class="quick-chip" data-days="0">Hari Ini</span>
@@ -34,7 +59,7 @@
                         <span class="quick-chip" data-days="7">Minggu Depan</span>
                     </div>
 
-                    <label>Jam Deadline</label>
+                    <label style="margin-top:18px;">Jam Deadline</label>
                     <div class="quick-row" id="quickTime">
                         <span class="quick-chip" data-h="8" data-m="0" data-p="AM">08:00</span>
                         <span class="quick-chip" data-h="12" data-m="0" data-p="PM">12:00</span>
@@ -139,14 +164,35 @@
                 <button type="submit" class="btn btn-primary">Simpan Tugas</button>
             </form>
         </div>
-        <a href="{{ url_for('index') }}" class="back-link">← KEMBALI KE MENU</a>
+        <a href="{{ url_for('index') }}" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Kembali ke Menu
+        </a>
     </div>
 
     <script>
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.setAttribute('aria-expanded', String(!expanded));
+                navMenu.classList.toggle('open');
+            });
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('open');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
+
         // ===== TANGGAL =====
         const tglInput = document.getElementById('tgl');
         const d0 = new Date();
-        d0.setDate(d0.getDate() + 1); // default: besok
+        d0.setDate(d0.getDate() + 1);
         tglInput.value = d0.toISOString().split('T')[0];
 
         document.querySelectorAll('#quickDate .quick-chip').forEach(chip => {

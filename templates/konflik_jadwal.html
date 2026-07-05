@@ -2,22 +2,50 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deteksi Konflik Jadwal</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <a href="#main" class="skip-link">Lewati ke konten utama</a>
+    <nav class="navbar" aria-label="Navigasi utama">
+        <div class="navbar-inner">
+            <a href="{{ url_for('index') }}" class="nav-brand">
+                <span class="brand-icon">SF</span>
+                <span class="brand-text">SchedulerFlow</span>
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="Buka navigasi">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="nav-links" id="navMenu">
+                <a href="{{ url_for('tambah_tugas') }}" class="nav-link">Tambah Tugas</a>
+                <a href="{{ url_for('semua_tugas', urut='timeline') }}" class="nav-link">Jadwal</a>
+                <a href="{{ url_for('cari_tugas') }}" class="nav-link">Cari</a>
+                <a href="{{ url_for('semua_tugas', urut='priority') }}" class="nav-btn">Buka Aplikasi</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="header">
         <div class="stamp">08</div>
         <div class="titles">
             <h1>Deteksi Konflik Jadwal</h1>
-            <p>Pemeriksaan Tumpang Tindih</p>
+            <p>Pemeriksaan tumpang tindih</p>
         </div>
     </div>
-    <div class="container">
+
+    <div class="container" id="main">
         <div class="panel">
             <form method="POST">
-                <label>Toleransi (menit)</label>
-                <input type="number" name="toleransi" value="60" required>
+                <label for="toleransi">Toleransi Waktu (menit)</label>
+                <input type="number" name="toleransi" id="toleransi" value="60" required>
+                <p style="font-family:'Inter',sans-serif; font-size:13px; color:#6B6F76; margin-top:8px; line-height:1.5;">
+                    Tugas dengan selisih waktu kurang dari nilai ini akan dianggap bertabrakan.
+                </p>
                 <button type="submit" class="btn btn-primary">Cek Konflik</button>
             </form>
         </div>
@@ -25,6 +53,9 @@
         {% if sudah_cek %}
         <div class="panel">
             {% if konflik_list %}
+                <div class="note note-warning" style="margin-bottom:16px; font-weight:600;">
+                    Ditemukan {{ konflik_list|length }} konflik jadwal
+                </div>
                 {% for t1, t2, selisih in konflik_list %}
                 <div class="note note-warning">
                     <strong>{{ t1.nama }}</strong> ({{ t1.deadline }}) berdekatan dengan
@@ -32,12 +63,37 @@
                 </div>
                 {% endfor %}
             {% else %}
-                <div class="note note-success">Tidak ditemukan konflik jadwal.</div>
+                <div class="note note-success" style="font-weight:600;">
+                    Tidak ditemukan konflik jadwal. Semua tugas aman dan terlindungi.
+                </div>
             {% endif %}
         </div>
         {% endif %}
 
-        <a href="{{ url_for('index') }}" class="back-link">← KEMBALI KE MENU</a>
+        <a href="{{ url_for('index') }}" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            Kembali ke Menu
+        </a>
     </div>
+
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                const expanded = navToggle.getAttribute('aria-expanded') === 'true';
+                navToggle.setAttribute('aria-expanded', String(!expanded));
+                navMenu.classList.toggle('open');
+            });
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('open');
+                    navToggle.setAttribute('aria-expanded', 'false');
+                });
+            });
+        }
+    </script>
 </body>
 </html>
