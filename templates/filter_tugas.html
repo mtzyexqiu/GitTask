@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Filter Tugas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <div class="stamp">09</div>
+        <div class="titles">
+            <h1>Filter Tugas</h1>
+            <p>Penyaringan Daftar</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="panel">
+            <form method="POST">
+                <label>Pilih Mode Filter</label>
+                <select name="mode" required>
+                    <option value="hari_ini">Hari Ini</option>
+                    <option value="minggu_ini">Minggu Ini</option>
+                    <option value="selesai">Sudah Selesai</option>
+                    <option value="terlambat">Terlambat</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Terapkan Filter</button>
+            </form>
+        </div>
+
+        {% if mode %}
+        <div class="panel">
+            <p style="font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--ink-soft); margin-bottom:14px; text-transform:uppercase;">
+                Hasil filter: {{ mode }}
+            </p>
+            {% if hasil %}
+            <table>
+                <tr><th>ID</th><th>Nama</th><th>Deadline</th><th>Priority</th><th>Status</th></tr>
+                {% for t in hasil %}
+                <tr>
+                    <td class="mono">{{ t.id }}</td>
+                    <td>{{ t.nama }}</td>
+                    <td class="deadline-cell">{{ t.deadline }}</td>
+                    <td>{{ t.priority }}</td>
+                    <td>{{ t.status }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% else %}
+                <div class="empty-state">Tidak ada tugas yang cocok dengan filter ini.</div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <a href="{{ url_for('index') }}" class="back-link">← KEMBALI KE MENU</a>
+    </div>
+</body>
+</html>

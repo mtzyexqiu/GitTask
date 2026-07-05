@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Cari Tugas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <div class="stamp">05</div>
+        <div class="titles">
+            <h1>Cari Tugas</h1>
+            <p>Pencarian berdasarkan ID</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="panel">
+            <form method="POST">
+                <label>Masukkan ID Tugas</label>
+                <input type="number" name="task_id" required>
+                <button type="submit" class="btn btn-primary">Cari</button>
+            </form>
+        </div>
+
+        {% if sudah_cari %}
+        <div class="panel">
+            {% if task %}
+                <table>
+                    <tr><td class="mono">ID</td><td>{{ task.id }}</td></tr>
+                    <tr><td class="mono">NAMA</td><td>{{ task.nama }}</td></tr>
+                    <tr><td class="mono">DEADLINE</td><td class="deadline-cell">{{ task.deadline }}</td></tr>
+                    <tr><td class="mono">PRIORITY</td><td>{{ task.priority }}</td></tr>
+                    <tr><td class="mono">KATEGORI</td><td><span class="tag">{{ task.kategori }}</span></td></tr>
+                    <tr><td class="mono">STATUS</td><td>{{ task.status }}</td></tr>
+                </table>
+            {% else %}
+                <div class="note note-error">Tugas dengan ID tersebut tidak ditemukan.</div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <a href="{{ url_for('index') }}" class="back-link">← KEMBALI KE MENU</a>
+    </div>
+</body>
+</html>

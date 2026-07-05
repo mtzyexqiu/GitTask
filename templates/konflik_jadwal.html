@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Deteksi Konflik Jadwal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="header">
+        <div class="stamp">08</div>
+        <div class="titles">
+            <h1>Deteksi Konflik Jadwal</h1>
+            <p>Pemeriksaan Tumpang Tindih</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="panel">
+            <form method="POST">
+                <label>Toleransi (menit)</label>
+                <input type="number" name="toleransi" value="60" required>
+                <button type="submit" class="btn btn-primary">Cek Konflik</button>
+            </form>
+        </div>
+
+        {% if sudah_cek %}
+        <div class="panel">
+            {% if konflik_list %}
+                {% for t1, t2, selisih in konflik_list %}
+                <div class="note note-warning">
+                    <strong>{{ t1.nama }}</strong> ({{ t1.deadline }}) berdekatan dengan
+                    <strong>{{ t2.nama }}</strong> ({{ t2.deadline }}) — selisih {{ "%.0f"|format(selisih) }} menit
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="note note-success">Tidak ditemukan konflik jadwal.</div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <a href="{{ url_for('index') }}" class="back-link">← KEMBALI KE MENU</a>
+    </div>
+</body>
+</html>
