@@ -20,7 +20,7 @@ Project ini di buat memenuhi kebutuhan dalam beraktifitas, terutama untuk Membua
 1. Clone repositori yang ada di bawah ( Menggunakan Git Bash ):
    
 - git clone https://github.com/mtzyexqiu/GitTask.git
-- cd GitTask
+- cd GitTask_12
 
 -----------------------------------------------------------------------------------------------------------------------
 
