@@ -20,7 +20,7 @@
                 <a href="{{ url_for('tambah_tugas') }}" class="nav-link">Tambah Tugas</a>
                 <a href="{{ url_for('semua_tugas', urut='timeline') }}" class="nav-link">Jadwal</a>
                 <a href="{{ url_for('cari_tugas') }}" class="nav-link">Cari</a>
-                <a href="{{ url_for('semua_tugas', urut='priority') }}" class="nav-btn">Buka Aplikasi</a>
+
             </div>
         </div>
     </nav>
@@ -108,7 +108,7 @@
                                 <line x1="5" y1="12" x2="19" y2="12"></line>
                             </svg>
                         </div>
-                        <span class="qc-idx">01 · INPUT</span>
+                        <span class="qc-idx">INPUT</span>
                         <span class="qc-label">Tambah Tugas</span>
                     </a>
                     <a href="{{ url_for('tugas_urgent') }}" class="quick-card">
@@ -117,7 +117,7 @@
                                 <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
                             </svg>
                         </div>
-                        <span class="qc-idx">02 · LIHAT</span>
+                        <span class="qc-idx">LIHAT</span>
                         <span class="qc-label">Tugas Urgent</span>
                     </a>
                     <a href="{{ url_for('semua_tugas', urut='priority') }}" class="quick-card">
@@ -131,7 +131,7 @@
                                 <line x1="3" y1="18" x2="3.01" y2="18"></line>
                             </svg>
                         </div>
-                        <span class="qc-idx">03 · LIHAT</span>
+                        <span class="qc-idx">LIHAT</span>
                         <span class="qc-label">Urut Prioritas</span>
                     </a>
                     <a href="{{ url_for('semua_tugas', urut='timeline') }}" class="quick-card">
@@ -141,7 +141,7 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg>
                         </div>
-                        <span class="qc-idx">04 · LIHAT</span>
+                        <span class="qc-idx">LIHAT</span>
                         <span class="qc-label">Urut Timeline</span>
                     </a>
                     <a href="{{ url_for('cari_tugas') }}" class="quick-card">
@@ -151,7 +151,7 @@
                                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                             </svg>
                         </div>
-                        <span class="qc-idx">05 · CARI</span>
+                        <span class="qc-idx">CARI</span>
                         <span class="qc-label">Cari Tugas</span>
                     </a>
                     <a href="{{ url_for('konflik_jadwal') }}" class="quick-card">
@@ -162,7 +162,7 @@
                                 <line x1="12" y1="17" x2="12.01" y2="17"></line>
                             </svg>
                         </div>
-                        <span class="qc-idx">08 · PERIKSA</span>
+                        <span class="qc-idx">PERIKSA</span>
                         <span class="qc-label">Deteksi Konflik</span>
                     </a>
                     <a href="{{ url_for('filter_tugas') }}" class="quick-card">
@@ -171,7 +171,7 @@
                                 <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
                             </svg>
                         </div>
-                        <span class="qc-idx">09 · SARING</span>
+                        <span class="qc-idx">SARING</span>
                         <span class="qc-label">Filter Tugas</span>
                     </a>
                     <a href="{{ url_for('semua_tugas', urut='priority') }}" class="quick-card">
@@ -183,7 +183,7 @@
                                 <rect x="3" y="14" width="7" height="7"></rect>
                             </svg>
                         </div>
-                        <span class="qc-idx">06 · LIHAT</span>
+                        <span class="qc-idx">LIHAT</span>
                         <span class="qc-label">Semua Tugas</span>
                     </a>
                 </div>

@@ -21,29 +21,19 @@ class DoublyLinkedList:
         return self.size == 0
 
     def insert_sorted_by_deadline(self, task):
-        """
-        Insert task baru ke posisi yang tepat berdasarkan deadline,
-        sehingga list selalu terurut dari deadline paling awal -> paling akhir.
-        Kompleksitas: O(n) karena harus cari posisi yang tepat.
-        """
         new_node = Node(task)
-
-        # Kasus 1: list masih kosong
         if self.is_empty():
             self.head = new_node
             self.tail = new_node
             self.size += 1
             return
-
-        # Kasus 2: deadline baru lebih awal dari head -> jadi head baru
         if task.deadline < self.head.task.deadline:
             new_node.next = self.head
             self.head.prev = new_node
             self.head = new_node
             self.size += 1
             return
-
-        # Kasus 3: cari posisi yang tepat (sisipkan setelah node yang sesuai)
+        
         current = self.head
         while current.next is not None and current.next.task.deadline <= task.deadline:
             current = current.next
@@ -59,7 +49,6 @@ class DoublyLinkedList:
         self.size += 1
 
     def remove_by_id(self, task_id):
-        """Hapus task tertentu dari list berdasarkan ID. O(n)"""
         current = self.head
         while current is not None:
             if current.task.id == task_id:
@@ -79,7 +68,6 @@ class DoublyLinkedList:
         return False
 
     def traverse_forward(self):
-        """Mengembalikan list of Task dari awal (deadline tercepat) -> akhir. O(n)"""
         result = []
         current = self.head
         while current is not None:
@@ -88,7 +76,6 @@ class DoublyLinkedList:
         return result
 
     def traverse_backward(self):
-        """Mengembalikan list of Task dari akhir -> awal. O(n)"""
         result = []
         current = self.tail
         while current is not None:
